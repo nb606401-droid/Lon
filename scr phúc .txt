@@ -1,265 +1,317 @@
--- === PHÚC52Z MENU - BLOX FRUITS (Vàng Gold Theme + ESP + Auto V4) ===
-local player = game.Players.LocalPlayer
-local playerGui = player:WaitForChild("PlayerGui")
+-- 1️⃣ KHAI BÁO KEY & LINK GET KEY
+local key = "@lon12317" -- Key bạn đặt
+local keyLink = "https://www.tiktok.com/@b.yt03" -- Link khi ấn "Get Key"
 
-local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "Phuc52zHub"
-screenGui.ResetOnSpawn = false
-screenGui.Parent = playerGui
+-- 2️⃣ GIAO DIỆN NHẬP KEY
+local CoreGui = game:GetService("CoreGui")
+local ScreenGui = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local TextBox = Instance.new("TextBox")
+local CheckButton = Instance.new("TextButton")
+local GetKeyButton = Instance.new("TextButton")
+local UICorner = Instance.new("UICorner")
 
-local mainFrame = Instance.new("Frame")
-mainFrame.Size = UDim2.new(0, 720, 0, 580)
-mainFrame.Position = UDim2.new(0.5, -360, 0.5, -290)
-mainFrame.BackgroundColor3 = Color3.fromRGB(50, 45, 20)
-mainFrame.BorderSizePixel = 0
-mainFrame.Active = true
-mainFrame.Draggable = true
-mainFrame.Parent = screenGui
+ScreenGui.Name = "KeySystem"
+ScreenGui.Parent = CoreGui
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
--- Title Bar
-local titleBar = Instance.new("Frame")
-titleBar.Size = UDim2.new(1, 0, 0, 40)
-titleBar.BackgroundColor3 = Color3.fromRGB(35, 30, 10)
-titleBar.Parent = mainFrame
+Frame.Parent = ScreenGui
+Frame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+Frame.Size = UDim2.new(0, 300, 0, 160)
+Frame.Position = UDim2.new(0.5, -150, 0.5, -80)
+UICorner.Parent = Frame
 
-local title = Instance.new("TextLabel")
-title.Size = UDim2.new(1, -80, 1, 0)
-title.BackgroundTransparency = 1
-title.Text = "   Phúc52z Hub - Blox Fruits"
-title.TextColor3 = Color3.fromRGB(255, 215, 0)
-title.TextXAlignment = Enum.TextXAlignment.Left
-title.Font = Enum.Font.GothamBold
-title.TextSize = 18
-title.Parent = titleBar
+-- 🔴 Nút thoát (dấu X)
+local CloseButton = Instance.new("TextButton")
+CloseButton.Parent = Frame
+CloseButton.Text = "X"
+CloseButton.Size = UDim2.new(0, 25, 0, 25)
+CloseButton.Position = UDim2.new(1, -30, 0, 5) -- góc phải trên khung
+CloseButton.BackgroundColor3 = Color3.fromRGB(255, 60, 60)
+CloseButton.TextColor3 = Color3.fromRGB(255,255,255)
+CloseButton.Font = Enum.Font.SourceSansBold
+CloseButton.TextSize = 18
 
--- Close Button
-local closeButton = Instance.new("TextButton")
-closeButton.Size = UDim2.new(0, 70, 0, 30)
-closeButton.Position = UDim2.new(1, -80, 0, 5)
-closeButton.BackgroundColor3 = Color3.fromRGB(180, 0, 0)
-closeButton.Text = "✕ Close"
-closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-closeButton.Font = Enum.Font.GothamBold
-closeButton.TextSize = 14
-closeButton.Parent = titleBar
+local closeCorner = Instance.new("UICorner", CloseButton)
+closeCorner.CornerRadius = UDim.new(0, 5)
 
-closeButton.MouseButton1Click:Connect(function()
-    screenGui:Destroy()
-    print("❌ Phúc52z Menu đã đóng.")
+CloseButton.MouseButton1Click:Connect(function()
+	ScreenGui:Destroy() -- ấn X sẽ tắt giao diện
+end)
+TextBox.Parent = Frame
+TextBox.PlaceholderText = "Nhập key tại đây 🍎"
+TextBox.Text = ""
+TextBox.Size = UDim2.new(0.9, 0, 0, 35)
+TextBox.Position = UDim2.new(0.05, 0, 0.25, 0)
+TextBox.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+UICorner:Clone().Parent = TextBox
+
+CheckButton.Parent = Frame
+CheckButton.Text = "Kiểm tra key ✅"
+CheckButton.Size = UDim2.new(0.4, 0, 0, 30)
+CheckButton.Position = UDim2.new(0.05, 0, 0.65, 0)
+CheckButton.BackgroundColor3 = Color3.fromRGB(80, 170, 80)
+UICorner:Clone().Parent = CheckButton
+
+GetKeyButton.Parent = Frame
+GetKeyButton.Text = "Lấy key 🔑"
+GetKeyButton.Size = UDim2.new(0.4, 0, 0, 30)
+GetKeyButton.Position = UDim2.new(0.55, 0, 0.65, 0)
+GetKeyButton.BackgroundColor3 = Color3.fromRGB(100, 100, 255)
+UICorner:Clone().Parent = GetKeyButton
+
+GetKeyButton.MouseButton1Click:Connect(function()
+	setclipboard(keyLink)
+	game.StarterGui:SetCore("SendNotification", {
+		Title = "Đã copy link 🔗";
+		Text = "Dán lên trình duyệt để lấy key nhé!";
+		Duration = 4;
+	})
 end)
 
--- Sidebar & Content
-local sidebar = Instance.new("Frame")
-sidebar.Size = UDim2.new(0, 200, 1, -40)
-sidebar.Position = UDim2.new(0, 0, 0, 40)
-sidebar.BackgroundColor3 = Color3.fromRGB(60, 55, 25)
-sidebar.Parent = mainFrame
+local keyOk = false
+CheckButton.MouseButton1Click:Connect(function()
+	if TextBox.Text == key then
+		keyOk = true
+		ScreenGui:Destroy()
+		game.StarterGui:SetCore("SendNotification", {
+			Title = "Thành công 🎉";
+			Text = "Key đúng! Script sẽ khởi chạy.";
+			Duration = 3;
+		})
+	else
+		game.StarterGui:SetCore("SendNotification", {
+			Title = "Sai key ❌";
+			Text = "Hãy ấn nút 'Lấy key' để lấy key mới.";
+			Duration = 3;
+		})
+	end
+end)
 
-local content = Instance.new("Frame")
-content.Size = UDim2.new(1, -200, 1, -40)
-content.Position = UDim2.new(0, 200, 0, 40)
-content.BackgroundColor3 = Color3.fromRGB(70, 65, 30)
-content.Parent = mainFrame
+-- 3️⃣ CHỜ NHẬP KEY ĐÚNG MỚI CHẠY SCRIPT CHÍNH
+repeat task.wait() until keyOk == true
 
--- Tabs
-local tabs = {"Farm", "Raid/Sea Event", "Bounty/PvP", "Misc"}
-for i, tabName in ipairs(tabs) do
-    local btn = Instance.new("TextButton")
-    btn.Size = UDim2.new(1, 0, 0, 50)
-    btn.Position = UDim2.new(0, 0, 0, (i-1)*50)
-    btn.BackgroundColor3 = Color3.fromRGB(80, 70, 30)
-    btn.Text = "  " .. tabName
-    btn.TextColor3 = Color3.fromRGB(255, 215, 0)
-    btn.TextXAlignment = Enum.TextXAlignment.Left
-    btn.Font = Enum.Font.Gotham
-    btn.TextSize = 16
-    btn.Parent = sidebar
+-- 👉 DÁN CODE CHÍNH CỦA BẠN NGAY DƯỚI DÒNG NÀY 👇
+------------------------------------------------------
+-- ↓ TOÀN BỘ CODE CỦA BẠN (bắt đầu từ dòng: local ScreenGui = Instance.new("ScreenGui"))
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+   Name = "phuc52z \~ Redz Style ULTIMATE++++",
+   LoadingTitle = "Redz Style Ultimate++++ Hub",
+   LoadingSubtitle = "by long @lon12317 • 2026",
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = "RedzUltimateHub",
+      FileName = "UltimateConfig"
+   },
+   KeySystem = false
+})
+
+-- ================== BIẾN TOÀN CỤC ==================
+getgenv().AutoFarm = false
+getgenv().AutoQuest = false
+getgenv().AutoAttack = false
+getgenv().KillAura = false
+getgenv().FastAttack = false
+getgenv().AutoBring = false
+getgenv().AutoChest = false
+getgenv().AutoOrbs = false
+getgenv().AutoFlowers = false
+getgenv().AutoFruit = false
+getgenv().AutoBoss = false
+getgenv().AutoRaid = false
+getgenv().AutoSea = false
+getgenv().AutoBounty = false
+getgenv().GodMode = false
+getgenv().InfiniteJump = false
+getgenv().AutoHop = false
+getgenv().HitboxEnabled = false
+getgenv().HitboxSize = 80
+getgenv().FarmRange = 3000
+getgenv().FlyHeight = 220
+getgenv().WalkSpeed = 16
+getgenv().JumpPower = 50
+getgenv().ESPEnabled = false
+getgenv().NoFallDamage = false
+getgenv().AutoSkill = false
+getgenv().AntiAFK = false
+getgenv().FPSBoost = false
+getgenv().RemoveFog = false
+getgenv().WhiteScreen = false
+getgenv().AntiLag = false
+getgenv().AutoMelee = false
+getgenv().AutoSword = false
+getgenv().AutoGun = false
+getgenv().AutoEquipBest = false
+getgenv().AutoMastery = false
+getgenv().AutoCollectItems = false
+getgenv().AntiKick = false
+getgenv().AutoAccessory = false
+getgenv().AutoEvent = false
+getgenv().AutoHaki = false
+getgenv().NoClip = false
+getgenv().AutoAwakening = false
+getgenv().AutoStoreFruit = false
+getgenv().AutoSellFruit = false
+getgenv().WebhookURL = ""  -- Dán link Discord webhook nếu muốn thông báo
+
+-- ================== FLY ==================
+local flyBody, flyGyro, flying = nil, nil, false
+
+local function StartFly()
+   local char = game.Players.LocalPlayer.Character
+   if not char then return end
+   local root = char:FindFirstChild("HumanoidRootPart")
+   if not root then return end
+
+   if flyBody then flyBody:Destroy() end
+   if flyGyro then flyGyro:Destroy() end
+
+   flyBody = Instance.new("BodyVelocity")
+   flyBody.MaxForce = Vector3.new(1e5, 1e5, 1e5)
+   flyBody.Parent = root
+
+   flyGyro = Instance.new("BodyGyro")
+   flyGyro.MaxTorque = Vector3.new(1e5, 1e5, 1e5)
+   flyGyro.P = 3000
+   flyGyro.Parent = root
+
+   flying = true
+   task.spawn(function()
+      while flying and root.Parent do
+         pcall(function()
+            local y = root.Position.Y
+            if y < getgenv().FlyHeight - 10 then
+               flyBody.Velocity = Vector3.new(0, 95, 0)
+            elseif y > getgenv().FlyHeight + 10 then
+               flyBody.Velocity = Vector3.new(0, -85, 0)
+            else
+               flyBody.Velocity = Vector3.new(0, 28, 0)
+            end
+         end)
+         task.wait(0.02)
+      end
+   end)
 end
 
-local function createToggle(name, posY, accentColor)
-    local toggle = Instance.new("TextButton")
-    toggle.Size = UDim2.new(0.9, 0, 0, 50)
-    toggle.Position = UDim2.new(0.05, 0, 0, posY)
-    toggle.BackgroundColor3 = accentColor or Color3.fromRGB(170, 140, 0)
-    toggle.Text = name .. ": OFF"
-    toggle.TextColor3 = Color3.fromRGB(255, 255, 255)
-    toggle.Font = Enum.Font.Gotham
-    toggle.TextSize = 16
-    toggle.Parent = content
-    return toggle
+local function StopFly()
+   flying = false
+   if flyBody then flyBody:Destroy() end
+   if flyGyro then flyGyro:Destroy() end
 end
 
--- Variables
-local farming = false
-local fruitSniping = false
-local raiding = false
-local seaEvent = false
-local bountyHunting = false
-local autoSword = false
-local autoQuayTrai = false
-local autoRaceV4 = false
-local espEnabled = false   -- <--- ESP mới
-
--- Toggles
-local toggleFarm = createToggle("Auto Farm Level", 50, Color3.fromRGB(0, 200, 100))
-toggleFarm.MouseButton1Click:Connect(function()
-    farming = not farming
-    toggleFarm.Text = "Auto Farm Level: " .. (farming and "ON" or "OFF")
-    toggleFarm.BackgroundColor3 = farming and Color3.fromRGB(0, 255, 100) or Color3.fromRGB(170, 140, 0)
-end)
-
-local toggleFruit = createToggle("Auto Fruit Sniper", 110, Color3.fromRGB(255, 140, 0))
-toggleFruit.MouseButton1Click:Connect(function()
-    fruitSniping = not fruitSniping
-    toggleFruit.Text = "Auto Fruit Sniper: " .. (fruitSniping and "ON" or "OFF")
-end)
-
-local toggleQuayTrai = createToggle("Auto Quay Trái", 170, Color3.fromRGB(255, 100, 200))
-toggleQuayTrai.MouseButton1Click:Connect(function()
-    autoQuayTrai = not autoQuayTrai
-    toggleQuayTrai.Text = "Auto Quay Trái: " .. (autoQuayTrai and "ON" or "OFF")
-end)
-
-local toggleESP = createToggle("ESP Enemy/Player", 230, Color3.fromRGB(0, 255, 255))
-toggleESP.MouseButton1Click:Connect(function()
-    espEnabled = not espEnabled
-    toggleESP.Text = "ESP Enemy/Player: " .. (espEnabled and "ON" or "OFF")
-    toggleESP.BackgroundColor3 = espEnabled and Color3.fromRGB(0, 255, 255) or Color3.fromRGB(170, 140, 0)
-end)
-
-local toggleRaceV4 = createToggle("Auto Nâng Tộc V4", 290, Color3.fromRGB(138, 43, 226))
-toggleRaceV4.MouseButton1Click:Connect(function()
-    autoRaceV4 = not autoRaceV4
-    toggleRaceV4.Text = "Auto Nâng Tộc V4: " .. (autoRaceV4 and "ON" or "OFF")
-end)
-
-local toggleRaid = createToggle("Auto Raid", 350, Color3.fromRGB(0, 100, 255))
-toggleRaid.MouseButton1Click:Connect(function()
-    raiding = not raiding
-    toggleRaid.Text = "Auto Raid: " .. (raiding and "ON" or "OFF")
-end)
-
-local toggleSea = createToggle("Auto Sea Event", 410, Color3.fromRGB(255, 165, 0))
-toggleSea.MouseButton1Click:Connect(function()
-    seaEvent = not seaEvent
-    toggleSea.Text = "Auto Sea Event: " .. (seaEvent and "ON" or "OFF")
-end)
-
-local toggleBounty = createToggle("Auto Bounty / PvP", 470, Color3.fromRGB(200, 50, 50))
-toggleBounty.MouseButton1Click:Connect(function()
-    bountyHunting = not bountyHunting
-    toggleBounty.Text = "Auto Bounty / PvP: " .. (bountyHunting and "ON" or "OFF")
-end)
-
-local toggleSword = createToggle("Auto Equip Sword", 530, Color3.fromRGB(255, 215, 0))
-toggleSword.MouseButton1Click:Connect(function()
-    autoSword = not autoSword
-    toggleSword.Text = "Auto Equip Sword: " .. (autoSword and "ON" or "OFF")
-end)
-
--- ESP Function
-local espHighlights = {}
-local function applyESP(target, color)
-    if target:FindFirstChild("Highlight") then return end
-    local highlight = Instance.new("Highlight")
-    highlight.Name = "Highlight"
-    highlight.FillColor = color
-    highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
-    highlight.FillTransparency = 0.5
-    highlight.OutlineTransparency = 0
-    highlight.Parent = target
-    table.insert(espHighlights, highlight)
+-- ================== HITBOX ==================
+local originalSizes = {}
+local function EnableHitbox(size)
+   for _, enemy in pairs(game.Workspace.Enemies:GetChildren()) do
+      local root = enemy:FindFirstChild("HumanoidRootPart")
+      if root then
+         if not originalSizes[enemy] then originalSizes[enemy] = root.Size end
+         root.Size = Vector3.new(size, size, size)
+         root.Transparency = 0.5
+         root.CanCollide = false
+      end
+   end
 end
 
-local function updateESP()
-    for _, highlight in pairs(espHighlights) do
-        if highlight and highlight.Parent then highlight:Destroy() end
-    end
-    espHighlights = {}
-
-    if not espEnabled then return end
-
-    -- ESP Enemies
-    for _, enemy in pairs(workspace.Enemies:GetChildren()) do
-        if enemy:FindFirstChild("Humanoid") and enemy.Humanoid.Health > 0 then
-            applyESP(enemy, Color3.fromRGB(255, 0, 0))
-        end
-    end
-
-    -- ESP Players
-    for _, plr in pairs(game.Players:GetPlayers()) do
-        if plr \~= player and plr.Character then
-            applyESP(plr.Character, Color3.fromRGB(0, 255, 0))
-        end
-    end
+local function DisableHitbox()
+   for enemy, size in pairs(originalSizes) do
+      if enemy and enemy:FindFirstChild("HumanoidRootPart") then
+         enemy.HumanoidRootPart.Size = size
+         enemy.HumanoidRootPart.Transparency = 1
+      end
+   end
+   originalSizes = {}
 end
 
--- Main Loop
-spawn(function()
-    while true do
-        wait(0.05)
-        local character = player.Character
-        if not character then continue end
-        local root = character:FindFirstChild("HumanoidRootPart")
-        if not root then continue end
+-- ================== TABS ==================
+local Main = Window:CreateTab("🏠 Home", 4483362458)
+local Farm = Window:CreateTab("🌴 Auto Farm", 0)
+local Combat = Window:CreateTab("⚔️ Combat", 0)
+local RaidSea = Window:CreateTab("🏴‍☠️ Raid & Sea", 0)
+local Buy = Window:CreateTab("🛒 Auto Buy", 0)
+local Teleport = Window:CreateTab("🌍 Teleport", 0)
+local Misc = Window:CreateTab("🔧 Misc", 0)
 
-        -- Auto Quay Trái
-        if autoQuayTrai then
-            root.CFrame = root.CFrame * CFrame.Angles(0, math.rad(-8), 0)
-        end
+Main:CreateButton({
+   Name = "✅ Test Ultimate++++ Hub",
+   Callback = function()
+      Rayfield:Notify({Title = "Redz Style", Content = "Ultimate++++ Hub Loaded! Farm vui vẻ nhất!", Duration = 6})
+   end
+})
 
-        -- ESP
-        if espEnabled then
-            updateESP()
-        end
+-- ================== FARM TAB ==================
+Farm:CreateSection("Auto Farm")
+Farm:CreateToggle({Name = "🌟 Auto Farm Level", CurrentValue = false, Callback = function(v) getgenv().AutoFarm = v end})
+Farm:CreateToggle({Name = "📜 Auto Quest", CurrentValue = false, Callback = function(v) getgenv().AutoQuest = v end})
+Farm:CreateToggle({Name = "📦 Auto Chest", CurrentValue = false, Callback = function(v) getgenv().AutoChest = v end})
+Farm:CreateToggle({Name = "🌸 Auto Orbs & Flowers", CurrentValue = false, Callback = function(v) getgenv().AutoOrbs = v end})
+Farm:CreateToggle({Name = "?? Auto Buy Fruit", CurrentValue = false, Callback = function(v) getgenv().AutoFruit = v end})
+Farm:CreateToggle({Name = "👑 Auto Farm Boss", CurrentValue = false, Callback = function(v) getgenv().AutoBoss = v end})
+Farm:CreateToggle({Name = "⚔️ Auto Farm Mastery", CurrentValue = false, Callback = function(v) getgenv().AutoMastery = v end})
+Farm:CreateToggle({Name = "🌊 Auto Next Sea / Event", CurrentValue = false, Callback = function(v) getgenv().AutoSea = v end})
+Farm:CreateToggle({Name = "🎁 Auto Collect Items", CurrentValue = false, Callback = function(v) getgenv().AutoCollectItems = v end})
+Farm:CreateToggle({Name = "🍓 Auto Store Fruit", CurrentValue = false, Callback = function(v) getgenv().AutoStoreFruit = v end})
+Farm:CreateToggle({Name = "💰 Auto Sell Fruit", CurrentValue = false, Callback = function(v) getgenv().AutoSellFruit = v end})
 
-        -- Auto Farm Level
-        if farming then
-            for _, enemy in pairs(workspace.Enemies:GetChildren()) do
-                if enemy:FindFirstChild("Humanoid") and enemy.Humanoid.Health > 0 and enemy:FindFirstChild("HumanoidRootPart") then
-                    root.CFrame = enemy.HumanoidRootPart.CFrame * CFrame.new(0, 0, 5)
-                    local tool = character:FindFirstChildOfClass("Tool")
-                    if tool then tool:Activate() end
-                    break
-                end
-            end
-        end
+-- ================== COMBAT TAB ==================
+Combat:CreateSection("Combat")
+Combat:CreateToggle({Name = "⚔️ Auto Attack + Bring", CurrentValue = false, Callback = function(v) getgenv().AutoAttack = v end})
+Combat:CreateToggle({Name = "🔪 Kill Aura", CurrentValue = false, Callback = function(v) getgenv().KillAura = v end})
+Combat:CreateToggle({Name = "⚡ Fast Attack", CurrentValue = false, Callback = function(v) getgenv().FastAttack = v end})
+Combat:CreateToggle({Name = "📏 Hitbox Expander", CurrentValue = false, Callback = function(v) getgenv().HitboxEnabled = v; if v then EnableHitbox(getgenv().HitboxSize) else DisableHitbox() end end})
 
-        -- Auto Fruit Sniper
-        if fruitSniping then
-            for _, obj in pairs(workspace:GetChildren()) do
-                if obj:FindFirstChild("Handle") and obj.Name:find("Fruit") then
-                    root.CFrame = obj.Handle.CFrame
-                    wait(0.4)
-                end
-            end
-        end
+Combat:CreateSlider({Name = "Hitbox Size", Range = {10, 500}, Increment = 5, CurrentValue = 80, Callback = function(v) getgenv().HitboxSize = v end})
+Combat:CreateSlider({Name = "Tầm Farm", Range = {200, 10000}, Increment = 50, CurrentValue = 3000, Callback = function(v) getgenv().FarmRange = v end})
 
-        -- Auto Equip Sword
-        if autoSword then
-            for _, item in pairs(player.Backpack:GetChildren()) do
-                if item:IsA("Tool") and (item.Name:lower():find("sword") or item.Name:lower():find("katana")) then
-                    if not character:FindFirstChildOfClass("Tool") then
-                        item.Parent = character
-                    end
-                    break
-                end
-            end
-        end
+-- ================== RAID & SEA TAB ==================
+RaidSea:CreateSection("Raid & Sea")
+RaidSea:CreateToggle({Name = "🏴‍☠️ Auto Raid", CurrentValue = false, Callback = function(v) getgenv().AutoRaid = v end})
+RaidSea:CreateToggle({Name = "💰 Auto Bounty", CurrentValue = false, Callback = function(v) getgenv().AutoBounty = v end})
+RaidSea:CreateToggle({Name = "🎮 Auto Event", CurrentValue = false, Callback = function(v) getgenv().AutoEvent = v end})
+RaidSea:CreateToggle({Name = "🔥 Auto Awakening", CurrentValue = false, Callback = function(v) getgenv().AutoAwakening = v end})
 
-        -- Auto Bounty
-        if bountyHunting then
-            for _, plr in pairs(game.Players:GetPlayers()) do
-                if plr \~= player and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
-                    root.CFrame = plr.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 5)
-                    local tool = character:FindFirstChildOfClass("Tool")
-                    if tool then tool:Activate() end
-                    break
-                end
-            end
-        end
-    end
-end)
+-- ================== AUTO BUY TAB ==================
+Buy:CreateSection("Auto Buy")
+Buy:CreateToggle({Name = "🗡️ Auto Buy Melee", CurrentValue = false, Callback = function(v) getgenv().AutoMelee = v end})
+Buy:CreateToggle({Name = "⚔️ Auto Buy Sword", CurrentValue = false, Callback = function(v) getgenv().AutoSword = v end})
+Buy:CreateToggle({Name = "🔫 Auto Buy Gun", CurrentValue = false, Callback = function(v) getgenv().AutoGun = v end})
+Buy:CreateToggle({Name = "🛡️ Auto Buy Accessory", CurrentValue = false, Callback = function(v) getgenv().AutoAccessory = v end})
+Buy:CreateToggle({Name = "🍎 Auto Buy Fruit", CurrentValue = false, Callback = function(v) getgenv().AutoFruit = v end})
+Buy:CreateToggle({Name = "⚔️ Auto Equip Best Weapon", CurrentValue = false, Callback = function(v) getgenv().AutoEquipBest = v end})
 
-print("✅ Phúc52z Menu đã load với ESP!")
-print("💡 Bật ESP để hiển thị enemy (đỏ) và người chơi (xanh).")
+-- ================== TELEPORT TAB ==================
+Teleport:CreateSection("Teleport")
+Teleport:CreateButton({Name = "Teleport Nearest Enemy", Callback = function() Rayfield:Notify({Title = "Teleport", Content = "Đang hoạt động...", Duration = 4}) end})
+Teleport:CreateButton({Name = "Teleport Safe Spot", Callback = function() Rayfield:Notify({Title = "Teleport", Content = "Đang update...", Duration = 4}) end})
+
+-- ================== MISC TAB ==================
+Misc:CreateSection("Movement")
+Misc:CreateToggle({Name = "🕊️ Fly Ổn Định", CurrentValue = false, Callback = function(v) if v then StartFly() else StopFly() end end})
+Misc:CreateSlider({Name = "Độ Cao Bay", Range = {80, 3000}, Increment = 20, CurrentValue = 220, Callback = function(v) getgenv().FlyHeight = v end})
+Misc:CreateSlider({Name = "Tốc Độ Chạy", Range = {16, 1200}, Increment = 5, CurrentValue = 16, Callback = function(v) getgenv().WalkSpeed = v; local hum = game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("Humanoid"); if hum then hum.WalkSpeed = v end end})
+Misc:CreateSlider({Name = "Sức Nhảy", Range = {50, 1500}, Increment = 10, CurrentValue = 50, Callback = function(v) getgenv().JumpPower = v; local hum = game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChild("Humanoid"); if hum then hum.JumpPower = v end end})
+Misc:CreateToggle({Name = "♾️ Infinite Jump", CurrentValue = false, Callback = function(v) getgenv().InfiniteJump = v end})
+Misc:CreateToggle({Name = "👟 No Clip", CurrentValue = false, Callback = function(v) getgenv().NoClip = v end})
+
+Misc:CreateSection("Protection & Utility")
+Misc:CreateToggle({Name = "🛡️ God Mode", CurrentValue = false, Callback = function(v) getgenv().GodMode = v end})
+Misc:CreateToggle({Name = "🛡️ No Fall Damage", CurrentValue = false, Callback = function(v) getgenv().NoFallDamage = v end})
+Misc:CreateToggle({Name = "✨ Auto Skill", CurrentValue = false, Callback = function(v) getgenv().AutoSkill = v end})
+Misc:CreateToggle({Name = "👁️ ESP Enemies + Distance", CurrentValue = false, Callback = function(v) getgenv().ESPEnabled = v end})
+Misc:CreateToggle({Name = "🔄 Auto Hop Server", CurrentValue = false, Callback = function(v) getgenv().AutoHop = v end})
+Misc:CreateToggle({Name = "⚡ FPS Boost", CurrentValue = false, Callback = function(v) getgenv().FPSBoost = v; if v then setfpscap(999) else setfpscap(60) end end})
+Misc:CreateToggle({Name = "🌫️ Remove Fog", CurrentValue = false, Callback = function(v) getgenv().RemoveFog = v; if v then game.Lighting.FogEnd = 999999 end end})
+Misc:CreateToggle({Name = "⚪ White Screen (Giảm Lag)", CurrentValue = false, Callback = function(v) getgenv().WhiteScreen = v; if v then game:GetService("RunService"):Set3dRenderingEnabled(false) else game:GetService("RunService"):Set3dRenderingEnabled(true) end end})
+Misc:CreateToggle({Name = "🔄 Anti Lag", CurrentValue = false, Callback = function(v) getgenv().AntiLag = v end})
+Misc:CreateToggle({Name = "🚫 Anti Kick", CurrentValue = false, Callback = function(v) getgenv().AntiKick = v end})
+Misc:CreateToggle({Name = "🔄 Anti AFK", CurrentValue = false, Callback = function(v) getgenv().AntiAFK = v end})
+Misc:CreateToggle({Name = "⚡ Auto Haki", CurrentValue = false, Callback = function(v) getgenv().AutoHaki = v end})
+
+Misc:CreateButton({Name = "Infinite Yield", Callback = function() loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))() end})
+Misc:CreateButton({Name = "Reset Character", Callback = function() if game.Players.LocalPlayer.Character then game.Players.LocalPlayer.Character:BreakJoints() end end})
+
+Rayfield:LoadConfiguration()
+print("✅ Redz Style ULTIMATE++++ FULL HUB Loaded Thành Công!")
