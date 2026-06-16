@@ -1,0 +1,265 @@
+-- === PHÚC52Z MENU - BLOX FRUITS (Vàng Gold Theme + ESP + Auto V4) ===
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "Phuc52zHub"
+screenGui.ResetOnSpawn = false
+screenGui.Parent = playerGui
+
+local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(0, 720, 0, 580)
+mainFrame.Position = UDim2.new(0.5, -360, 0.5, -290)
+mainFrame.BackgroundColor3 = Color3.fromRGB(50, 45, 20)
+mainFrame.BorderSizePixel = 0
+mainFrame.Active = true
+mainFrame.Draggable = true
+mainFrame.Parent = screenGui
+
+-- Title Bar
+local titleBar = Instance.new("Frame")
+titleBar.Size = UDim2.new(1, 0, 0, 40)
+titleBar.BackgroundColor3 = Color3.fromRGB(35, 30, 10)
+titleBar.Parent = mainFrame
+
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1, -80, 1, 0)
+title.BackgroundTransparency = 1
+title.Text = "   Phúc52z Hub - Blox Fruits"
+title.TextColor3 = Color3.fromRGB(255, 215, 0)
+title.TextXAlignment = Enum.TextXAlignment.Left
+title.Font = Enum.Font.GothamBold
+title.TextSize = 18
+title.Parent = titleBar
+
+-- Close Button
+local closeButton = Instance.new("TextButton")
+closeButton.Size = UDim2.new(0, 70, 0, 30)
+closeButton.Position = UDim2.new(1, -80, 0, 5)
+closeButton.BackgroundColor3 = Color3.fromRGB(180, 0, 0)
+closeButton.Text = "✕ Close"
+closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeButton.Font = Enum.Font.GothamBold
+closeButton.TextSize = 14
+closeButton.Parent = titleBar
+
+closeButton.MouseButton1Click:Connect(function()
+    screenGui:Destroy()
+    print("❌ Phúc52z Menu đã đóng.")
+end)
+
+-- Sidebar & Content
+local sidebar = Instance.new("Frame")
+sidebar.Size = UDim2.new(0, 200, 1, -40)
+sidebar.Position = UDim2.new(0, 0, 0, 40)
+sidebar.BackgroundColor3 = Color3.fromRGB(60, 55, 25)
+sidebar.Parent = mainFrame
+
+local content = Instance.new("Frame")
+content.Size = UDim2.new(1, -200, 1, -40)
+content.Position = UDim2.new(0, 200, 0, 40)
+content.BackgroundColor3 = Color3.fromRGB(70, 65, 30)
+content.Parent = mainFrame
+
+-- Tabs
+local tabs = {"Farm", "Raid/Sea Event", "Bounty/PvP", "Misc"}
+for i, tabName in ipairs(tabs) do
+    local btn = Instance.new("TextButton")
+    btn.Size = UDim2.new(1, 0, 0, 50)
+    btn.Position = UDim2.new(0, 0, 0, (i-1)*50)
+    btn.BackgroundColor3 = Color3.fromRGB(80, 70, 30)
+    btn.Text = "  " .. tabName
+    btn.TextColor3 = Color3.fromRGB(255, 215, 0)
+    btn.TextXAlignment = Enum.TextXAlignment.Left
+    btn.Font = Enum.Font.Gotham
+    btn.TextSize = 16
+    btn.Parent = sidebar
+end
+
+local function createToggle(name, posY, accentColor)
+    local toggle = Instance.new("TextButton")
+    toggle.Size = UDim2.new(0.9, 0, 0, 50)
+    toggle.Position = UDim2.new(0.05, 0, 0, posY)
+    toggle.BackgroundColor3 = accentColor or Color3.fromRGB(170, 140, 0)
+    toggle.Text = name .. ": OFF"
+    toggle.TextColor3 = Color3.fromRGB(255, 255, 255)
+    toggle.Font = Enum.Font.Gotham
+    toggle.TextSize = 16
+    toggle.Parent = content
+    return toggle
+end
+
+-- Variables
+local farming = false
+local fruitSniping = false
+local raiding = false
+local seaEvent = false
+local bountyHunting = false
+local autoSword = false
+local autoQuayTrai = false
+local autoRaceV4 = false
+local espEnabled = false   -- <--- ESP mới
+
+-- Toggles
+local toggleFarm = createToggle("Auto Farm Level", 50, Color3.fromRGB(0, 200, 100))
+toggleFarm.MouseButton1Click:Connect(function()
+    farming = not farming
+    toggleFarm.Text = "Auto Farm Level: " .. (farming and "ON" or "OFF")
+    toggleFarm.BackgroundColor3 = farming and Color3.fromRGB(0, 255, 100) or Color3.fromRGB(170, 140, 0)
+end)
+
+local toggleFruit = createToggle("Auto Fruit Sniper", 110, Color3.fromRGB(255, 140, 0))
+toggleFruit.MouseButton1Click:Connect(function()
+    fruitSniping = not fruitSniping
+    toggleFruit.Text = "Auto Fruit Sniper: " .. (fruitSniping and "ON" or "OFF")
+end)
+
+local toggleQuayTrai = createToggle("Auto Quay Trái", 170, Color3.fromRGB(255, 100, 200))
+toggleQuayTrai.MouseButton1Click:Connect(function()
+    autoQuayTrai = not autoQuayTrai
+    toggleQuayTrai.Text = "Auto Quay Trái: " .. (autoQuayTrai and "ON" or "OFF")
+end)
+
+local toggleESP = createToggle("ESP Enemy/Player", 230, Color3.fromRGB(0, 255, 255))
+toggleESP.MouseButton1Click:Connect(function()
+    espEnabled = not espEnabled
+    toggleESP.Text = "ESP Enemy/Player: " .. (espEnabled and "ON" or "OFF")
+    toggleESP.BackgroundColor3 = espEnabled and Color3.fromRGB(0, 255, 255) or Color3.fromRGB(170, 140, 0)
+end)
+
+local toggleRaceV4 = createToggle("Auto Nâng Tộc V4", 290, Color3.fromRGB(138, 43, 226))
+toggleRaceV4.MouseButton1Click:Connect(function()
+    autoRaceV4 = not autoRaceV4
+    toggleRaceV4.Text = "Auto Nâng Tộc V4: " .. (autoRaceV4 and "ON" or "OFF")
+end)
+
+local toggleRaid = createToggle("Auto Raid", 350, Color3.fromRGB(0, 100, 255))
+toggleRaid.MouseButton1Click:Connect(function()
+    raiding = not raiding
+    toggleRaid.Text = "Auto Raid: " .. (raiding and "ON" or "OFF")
+end)
+
+local toggleSea = createToggle("Auto Sea Event", 410, Color3.fromRGB(255, 165, 0))
+toggleSea.MouseButton1Click:Connect(function()
+    seaEvent = not seaEvent
+    toggleSea.Text = "Auto Sea Event: " .. (seaEvent and "ON" or "OFF")
+end)
+
+local toggleBounty = createToggle("Auto Bounty / PvP", 470, Color3.fromRGB(200, 50, 50))
+toggleBounty.MouseButton1Click:Connect(function()
+    bountyHunting = not bountyHunting
+    toggleBounty.Text = "Auto Bounty / PvP: " .. (bountyHunting and "ON" or "OFF")
+end)
+
+local toggleSword = createToggle("Auto Equip Sword", 530, Color3.fromRGB(255, 215, 0))
+toggleSword.MouseButton1Click:Connect(function()
+    autoSword = not autoSword
+    toggleSword.Text = "Auto Equip Sword: " .. (autoSword and "ON" or "OFF")
+end)
+
+-- ESP Function
+local espHighlights = {}
+local function applyESP(target, color)
+    if target:FindFirstChild("Highlight") then return end
+    local highlight = Instance.new("Highlight")
+    highlight.Name = "Highlight"
+    highlight.FillColor = color
+    highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
+    highlight.FillTransparency = 0.5
+    highlight.OutlineTransparency = 0
+    highlight.Parent = target
+    table.insert(espHighlights, highlight)
+end
+
+local function updateESP()
+    for _, highlight in pairs(espHighlights) do
+        if highlight and highlight.Parent then highlight:Destroy() end
+    end
+    espHighlights = {}
+
+    if not espEnabled then return end
+
+    -- ESP Enemies
+    for _, enemy in pairs(workspace.Enemies:GetChildren()) do
+        if enemy:FindFirstChild("Humanoid") and enemy.Humanoid.Health > 0 then
+            applyESP(enemy, Color3.fromRGB(255, 0, 0))
+        end
+    end
+
+    -- ESP Players
+    for _, plr in pairs(game.Players:GetPlayers()) do
+        if plr \~= player and plr.Character then
+            applyESP(plr.Character, Color3.fromRGB(0, 255, 0))
+        end
+    end
+end
+
+-- Main Loop
+spawn(function()
+    while true do
+        wait(0.05)
+        local character = player.Character
+        if not character then continue end
+        local root = character:FindFirstChild("HumanoidRootPart")
+        if not root then continue end
+
+        -- Auto Quay Trái
+        if autoQuayTrai then
+            root.CFrame = root.CFrame * CFrame.Angles(0, math.rad(-8), 0)
+        end
+
+        -- ESP
+        if espEnabled then
+            updateESP()
+        end
+
+        -- Auto Farm Level
+        if farming then
+            for _, enemy in pairs(workspace.Enemies:GetChildren()) do
+                if enemy:FindFirstChild("Humanoid") and enemy.Humanoid.Health > 0 and enemy:FindFirstChild("HumanoidRootPart") then
+                    root.CFrame = enemy.HumanoidRootPart.CFrame * CFrame.new(0, 0, 5)
+                    local tool = character:FindFirstChildOfClass("Tool")
+                    if tool then tool:Activate() end
+                    break
+                end
+            end
+        end
+
+        -- Auto Fruit Sniper
+        if fruitSniping then
+            for _, obj in pairs(workspace:GetChildren()) do
+                if obj:FindFirstChild("Handle") and obj.Name:find("Fruit") then
+                    root.CFrame = obj.Handle.CFrame
+                    wait(0.4)
+                end
+            end
+        end
+
+        -- Auto Equip Sword
+        if autoSword then
+            for _, item in pairs(player.Backpack:GetChildren()) do
+                if item:IsA("Tool") and (item.Name:lower():find("sword") or item.Name:lower():find("katana")) then
+                    if not character:FindFirstChildOfClass("Tool") then
+                        item.Parent = character
+                    end
+                    break
+                end
+            end
+        end
+
+        -- Auto Bounty
+        if bountyHunting then
+            for _, plr in pairs(game.Players:GetPlayers()) do
+                if plr \~= player and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+                    root.CFrame = plr.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 5)
+                    local tool = character:FindFirstChildOfClass("Tool")
+                    if tool then tool:Activate() end
+                    break
+                end
+            end
+        end
+    end
+end)
+
+print("✅ Phúc52z Menu đã load với ESP!")
+print("💡 Bật ESP để hiển thị enemy (đỏ) và người chơi (xanh).")
