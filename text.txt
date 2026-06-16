@@ -1,0 +1,33 @@
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+local Window = Library.CreateLib("redz Hub : Blox Fruits", "Ocean")
+
+-- Sidebar
+Window:NewTab("Discord")
+Window:NewTab("Farm")
+Window:NewTab("Sea")
+Window:NewTab("Quests/Items")
+Window:NewTab("Fruit/Raid")
+Window:NewTab("Stats")
+Window:NewTab("Teleport")
+Window:NewTab("Visual")
+Window:NewTab("Shop")
+Window:NewTab("Misc")
+
+-- Nội dung Tab Farm
+local FarmTab = Window:NewTab("Farm")
+local Section = FarmTab:NewSection("Farm Tool")
+
+Section:NewToggle("Auto Farm Level", "", function() end)
+Section:NewToggle("Auto Farm Nearest", "", function() end)
+Section:NewToggle("Auto Factory", "", function() end)
+Section:NewToggle("Auto Ectoplasm", "", function() end)
+Section:NewToggle("Auto Chest", "", function() end)
+
+Section:NewSection("Bosses")
+Section:NewButton("Update Boss List", "", function() end)
+
+local UISec = FarmTab:NewSection("UI Scale")
+UISec:NewDropdown("UI Scale", "", {"Small", "Medium", "Large"}, function() end)
+
+local MeleeSec = FarmTab:NewSection("Melee")
+MeleeSec:NewToggle("Auto Melee", "", function() end)
