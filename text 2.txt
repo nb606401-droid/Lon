@@ -1,0 +1,1301 @@
+-- 1️⃣ KHAI BÁO KEY & LINK GET KEY
+local key = "🍎" -- Key bạn đặt
+local keyLink = "https://www.tiktok.com/@b.yt03" -- Link khi ấn "Get Key"
+
+-- 2️⃣ GIAO DIỆN NHẬP KEY
+local CoreGui = game:GetService("CoreGui")
+local ScreenGui = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local TextBox = Instance.new("TextBox")
+local CheckButton = Instance.new("TextButton")
+local GetKeyButton = Instance.new("TextButton")
+local UICorner = Instance.new("UICorner")
+
+ScreenGui.Name = "KeySystem"
+ScreenGui.Parent = CoreGui
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+Frame.Parent = ScreenGui
+Frame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+Frame.Size = UDim2.new(0, 300, 0, 160)
+Frame.Position = UDim2.new(0.5, -150, 0.5, -80)
+UICorner.Parent = Frame
+
+-- 🔴 Nút thoát (dấu X)
+local CloseButton = Instance.new("TextButton")
+CloseButton.Parent = Frame
+CloseButton.Text = "X"
+CloseButton.Size = UDim2.new(0, 25, 0, 25)
+CloseButton.Position = UDim2.new(1, -30, 0, 5) -- góc phải trên khung
+CloseButton.BackgroundColor3 = Color3.fromRGB(255, 60, 60)
+CloseButton.TextColor3 = Color3.fromRGB(255,255,255)
+CloseButton.Font = Enum.Font.SourceSansBold
+CloseButton.TextSize = 18
+
+local closeCorner = Instance.new("UICorner", CloseButton)
+closeCorner.CornerRadius = UDim.new(0, 5)
+
+CloseButton.MouseButton1Click:Connect(function()
+	ScreenGui:Destroy() -- ấn X sẽ tắt giao diện
+end)
+TextBox.Parent = Frame
+TextBox.PlaceholderText = "Nhập key tại đây 🍎"
+TextBox.Text = ""
+TextBox.Size = UDim2.new(0.9, 0, 0, 35)
+TextBox.Position = UDim2.new(0.05, 0, 0.25, 0)
+TextBox.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+UICorner:Clone().Parent = TextBox
+
+CheckButton.Parent = Frame
+CheckButton.Text = "Kiểm tra key ✅"
+CheckButton.Size = UDim2.new(0.4, 0, 0, 30)
+CheckButton.Position = UDim2.new(0.05, 0, 0.65, 0)
+CheckButton.BackgroundColor3 = Color3.fromRGB(80, 170, 80)
+UICorner:Clone().Parent = CheckButton
+
+GetKeyButton.Parent = Frame
+GetKeyButton.Text = "Lấy key 🔑"
+GetKeyButton.Size = UDim2.new(0.4, 0, 0, 30)
+GetKeyButton.Position = UDim2.new(0.55, 0, 0.65, 0)
+GetKeyButton.BackgroundColor3 = Color3.fromRGB(100, 100, 255)
+UICorner:Clone().Parent = GetKeyButton
+
+GetKeyButton.MouseButton1Click:Connect(function()
+	setclipboard(keyLink)
+	game.StarterGui:SetCore("SendNotification", {
+		Title = "Đã copy link 🔗";
+		Text = "Dán lên trình duyệt để lấy key nhé!";
+		Duration = 4;
+	})
+end)
+
+local keyOk = false
+CheckButton.MouseButton1Click:Connect(function()
+	if TextBox.Text == key then
+		keyOk = true
+		ScreenGui:Destroy()
+		game.StarterGui:SetCore("SendNotification", {
+			Title = "Thành công 🎉";
+			Text = "Key đúng! Script sẽ khởi chạy.";
+			Duration = 3;
+		})
+	else
+		game.StarterGui:SetCore("SendNotification", {
+			Title = "Sai key ❌";
+			Text = "Hãy ấn nút 'Lấy key' để lấy key mới.";
+			Duration = 3;
+		})
+	end
+end)
+
+-- 3️⃣ CHỜ NHẬP KEY ĐÚNG MỚI CHẠY SCRIPT CHÍNH
+repeat task.wait() until keyOk == true
+
+-- 👉 DÁN CODE CHÍNH CỦA BẠN NGAY DƯỚI DÒNG NÀY 👇
+------------------------------------------------------
+-- ↓ TOÀN BỘ CODE CỦA BẠN (bắt đầu từ dòng: local ScreenGui = Instance.new("ScreenGui"))
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+local rootPart = character:WaitForChild("HumanoidRootPart")
+local virtualInput = game:GetService("VirtualInputManager")
+local tween = game:GetService("TweenService")
+local replicatedStorage = game:GetService("ReplicatedStorage")
+local players = game:GetService("Players")
+local userInput = game:GetService("UserInputService")
+local coreGui = game:GetService("CoreGui")
+local teleportService = game:GetService("TeleportService")
+local workspace = game:GetService("Workspace")
+local runService = game:GetService("RunService")
+local lighting = game:GetService("Lighting")
+local guiService = game:GetService("GuiService")
+local tweenService = game:GetService("TweenService")
+local collectionService = game:GetService("CollectionService")
+local pathfindingService = game:GetService("PathfindingService")
+
+local function antiBan()
+    setclipboard = function() end
+    writefile = function() end
+    delfile = function() end
+    makefolder = function() end
+    listfiles = function() end
+    loadstring = function(s)
+        if string.find(s, "dofile") or string.find(s, "readfile") then
+            return function() end
+        end
+        return loadstring(s)
+    end
+end
+antiBan()
+
+local CONFIG = {
+    FarmLevel = true,
+    FarmAllBoss = false,
+    FarmElite = false,
+    FarmSeaBeast = false,
+    FarmShip = false,
+    AutoRaidFull = false,
+    AutoAwaken = false,
+    AutoSeaEvents = false,
+    AutoDoughKing = false,
+    AutoCakePrince = false,
+    AutoMirage = false,
+    AutoTerrorshark = false,
+    AutoBoat = true,
+    AutoStats = true,
+    AutoHaki = true,
+    AutoBounty = false,
+    AutoRebirth = false,
+    AutoRaceV4 = false,
+    AutoHeal = true,
+    AutoSell = true,
+    AutoSpin = false,
+    FruitSniper = true,
+    FruitESP = true,
+    FruitNotifier = true,
+    FruitAutoCollect = true,
+    ESPPlayers = false,
+    ESPMobs = false,
+    ESPBoss = false,
+    ESPChest = false,
+    ESPFruit = false,
+    ESPItems = false,
+    ShowHealth = false,
+    ShowDistance = false,
+    AntiAFK = true,
+    Teleport = true,
+    AttackRange = 35,
+    SkillRotation = {"Z", "X", "C", "V", "F"},
+    BossList = {"Diamond", "Saber Expert", "Ice Admiral", "Flame Admiral", "Darkbeard", "Don Swan", "Cake Prince", "Dough King", "Rip_Indra", "Soul Reaper", "Dragon", "Phoenix", "Leopard", "Venom"},
+    NPCPriority = {"Bandit", "Gorilla", "Pirate", "Marine", "Viking", "Snow", "Ice", "Dragon"},
+    StatsPriority = {"Fruit", "Melee", "Defense", "Sword", "Gun"},
+    HakiMode = "All",
+    BoatType = "Swan Boat",
+    TeleportLocation = "Turtle Island",
+    FruitBlacklist = {"Bomb", "Smoke", "Spike"},
+    HealThreshold = 25,
+    AFKInterval = 45,
+    MaxLevel = 2550,
+    RaidFruit = "Buddha",
+    AwakenFruit = "Flame",
+    RaceType = "Human",
+    AutoFarmChest = false,
+    AutoFarmFlower = false,
+    AutoFarmBeli = false,
+    AutoFarmFragment = false,
+    AutoFarmMastery = false,
+    AutoFarmBone = false,
+    AutoFarmEvo = false,
+}
+
+local COLORS = {
+    Background = Color3.fromRGB(18, 18, 28),
+    BackgroundAlt = Color3.fromRGB(28, 28, 42),
+    Primary = Color3.fromRGB(255, 200, 0),
+    Secondary = Color3.fromRGB(255, 70, 130),
+    Accent = Color3.fromRGB(0, 200, 255),
+    Success = Color3.fromRGB(0, 255, 150),
+    Danger = Color3.fromRGB(255, 50, 50),
+    Text = Color3.fromRGB(240, 240, 255),
+    TextDim = Color3.fromRGB(160, 160, 190),
+    HealthBar = Color3.fromRGB(0, 255, 0),
+}
+
+local function getNPCByName(name)
+    for _, npc in pairs(workspace.NPCs:GetChildren()) do
+        if npc:FindFirstChild("Humanoid") and npc.Humanoid.Health > 0 then
+            if string.find(npc.Name, name) then
+                return npc
+            end
+        end
+    end
+    return nil
+end
+
+local function getAllBosses()
+    local bosses = {}
+    for _, name in ipairs(CONFIG.BossList) do
+        local boss = getNPCByName(name)
+        if boss then table.insert(bosses, boss) end
+    end
+    return bosses
+end
+
+local function getNearestNPC(list)
+    local nearest, minDist = nil, math.huge
+    for _, name in ipairs(list) do
+        local npc = getNPCByName(name)
+        if npc then
+            local dist = (rootPart.Position - npc.HumanoidRootPart.Position).Magnitude
+            if dist < minDist then
+                nearest = npc
+                minDist = dist
+            end
+        end
+    end
+    return nearest
+end
+
+local function getNearestBoss()
+    local nearest, minDist = nil, math.huge
+    local bosses = getAllBosses()
+    for _, boss in ipairs(bosses) do
+        if boss then
+            local dist = (rootPart.Position - boss.HumanoidRootPart.Position).Magnitude
+            if dist < minDist then
+                nearest = boss
+                minDist = dist
+            end
+        end
+    end
+    return nearest
+end
+
+local function getNearestFruit()
+    local closest, minDist = nil, math.huge
+    for _, obj in pairs(workspace:GetChildren()) do
+        if obj:IsA("Tool") and obj:FindFirstChild("Handle") and string.find(obj.Name, "Fruit") then
+            local dist = (rootPart.Position - obj.Handle.Position).Magnitude
+            if dist < minDist then
+                local fruitName = string.gsub(obj.Name, "Fruit_", "")
+                local blocked = false
+                for _, black in ipairs(CONFIG.FruitBlacklist) do
+                    if string.find(fruitName, black) then blocked = true end
+                end
+                if not blocked then
+                    closest = obj
+                    minDist = dist
+                end
+            end
+        end
+    end
+    return closest
+end
+
+local function getNearestChest()
+    local closest, minDist = nil, math.huge
+    for _, obj in pairs(workspace:GetChildren()) do
+        if obj:IsA("Part") and string.find(obj.Name, "Chest") then
+            local dist = (rootPart.Position - obj.Position).Magnitude
+            if dist < minDist then
+                closest = obj
+                minDist = dist
+            end
+        end
+    end
+    return closest
+end
+
+local function getNearestFlower()
+    local closest, minDist = nil, math.huge
+    for _, obj in pairs(workspace:GetChildren()) do
+        if obj:IsA("Part") and string.find(obj.Name, "Flower") then
+            local dist = (rootPart.Position - obj.Position).Magnitude
+            if dist < minDist then
+                closest = obj
+                minDist = dist
+            end
+        end
+    end
+    return closest
+end
+
+local function getNearestPlayer()
+    local nearest, minDist = nil, math.huge
+    for _, plr in pairs(players:GetPlayers()) do
+        if plr ~= player and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+            local dist = (rootPart.Position - plr.Character.HumanoidRootPart.Position).Magnitude
+            if dist < minDist then
+                nearest = plr
+                minDist = dist
+            end
+        end
+    end
+    return nearest
+end
+
+local function moveTo(pos)
+    tween:Create(rootPart, TweenInfo.new(0.5, Enum.EasingStyle.Linear), {CFrame = CFrame.new(pos)}):Play()
+end
+
+local function moveToSmooth(pos)
+    local path = pathfindingService:CreatePath()
+    path:ComputeAsync(rootPart.Position, pos)
+    if path.Status == Enum.PathStatus.Success then
+        for _, point in ipairs(path:GetWaypoints()) do
+            moveTo(point.Position)
+            wait(0.05)
+        end
+    end
+end
+
+local function useKey(key, duration)
+    duration = duration or 0.15
+    virtualInput:SendKeyEvent(true, key, false, game)
+    wait(duration)
+    virtualInput:SendKeyEvent(false, key, false, game)
+end
+
+local function comboAttack(target)
+    if not target or not target:FindFirstChild("HumanoidRootPart") then return end
+    local tPos = target.HumanoidRootPart.Position
+    if (rootPart.Position - tPos).Magnitude > CONFIG.AttackRange then
+        moveTo(tPos + Vector3.new(0, 2, 5))
+        wait(0.3)
+    end
+    rootPart.CFrame = CFrame.new(tPos + Vector3.new(0, 2, 2))
+    wait(0.05)
+    for _, skill in ipairs(CONFIG.SkillRotation) do
+        useKey(skill, 0.08)
+        wait(0.1)
+    end
+end
+
+local function teleportToLocation(location)
+    for _, obj in pairs(workspace:GetChildren()) do
+        if obj:IsA("Part") and string.find(obj.Name, location) then
+            moveTo(obj.Position + Vector3.new(0, 5, 0))
+            return true
+        end
+    end
+    return false
+end
+
+local espObjects = {}
+
+local function createESP(part, color, text, type)
+    if not part then return end
+    local bill = Instance.new("BillboardGui")
+    bill.Adornee = part
+    bill.Size = UDim2.new(0, 200, 0, 50)
+    bill.StudsOffset = Vector3.new(0, 3, 0)
+    bill.Parent = part
+    bill.Name = "ESP_" .. type
+
+    local lbl = Instance.new("TextLabel")
+    lbl.Text = text
+    lbl.TextColor3 = color
+    lbl.Size = UDim2.new(1, 0, 1, 0)
+    lbl.BackgroundTransparency = 1
+    lbl.TextScaled = true
+    lbl.TextStrokeTransparency = 0.3
+    lbl.Parent = bill
+
+    if CONFIG.ShowHealth and (type == "Mob" or type == "Boss" or type == "Player") then
+        local hpBar = Instance.new("Frame")
+        hpBar.Parent = bill
+        hpBar.Size = UDim2.new(1, 0, 0, 5)
+        hpBar.Position = UDim2.new(0, 0, 1, 2)
+        hpBar.BackgroundColor3 = COLORS.Danger
+        hpBar.BackgroundTransparency = 0.5
+
+        local hpFill = Instance.new("Frame")
+        hpFill.Parent = hpBar
+        hpFill.Size = UDim2.new(1, 0, 1, 0)
+        hpFill.BackgroundColor3 = COLORS.Success
+        hpFill.BackgroundTransparency = 0.3
+
+        local target = part.Parent
+        if target and target:FindFirstChild("Humanoid") then
+            runService.Heartbeat:Connect(function()
+                local hp = target.Humanoid.Health / target.Humanoid.MaxHealth
+                hpFill.Size = UDim2.new(hp, 0, 1, 0)
+            end)
+        end
+    end
+
+    if CONFIG.ShowDistance then
+        local distLbl = Instance.new("TextLabel")
+        distLbl.Parent = bill
+        distLbl.Size = UDim2.new(1, 0, 0, 20)
+        distLbl.Position = UDim2.new(0, 0, -0.5, 0)
+        distLbl.BackgroundTransparency = 1
+        distLbl.Text = ""
+        distLbl.TextColor3 = COLORS.TextDim
+        distLbl.TextSize = 12
+        distLbl.Font = Enum.Font.Gotham
+
+        runService.Heartbeat:Connect(function()
+            local dist = (rootPart.Position - part.Position).Magnitude
+            distLbl.Text = string.format("%.1fm", dist)
+        end)
+    end
+
+    table.insert(espObjects, bill)
+    return bill
+end
+
+local function updateESP()
+    for _, esp in ipairs(espObjects) do
+        if esp and esp.Parent then
+            esp:Destroy()
+        end
+    end
+    espObjects = {}
+
+    if CONFIG.ESPPlayers then
+        for _, plr in pairs(players:GetPlayers()) do
+            if plr ~= player and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") then
+                createESP(plr.Character.HumanoidRootPart, COLORS.Primary, "👤 " .. plr.Name, "Player")
+            end
+        end
+    end
+
+    if CONFIG.ESPMobs then
+        for _, npc in pairs(workspace.NPCs:GetChildren()) do
+            if npc:FindFirstChild("HumanoidRootPart") and npc.Humanoid.Health > 0 then
+                local isBoss = false
+                for _, name in ipairs(CONFIG.BossList) do
+                    if string.find(npc.Name, name) then isBoss = true end
+                end
+                if not isBoss then
+                    createESP(npc.HumanoidRootPart, COLORS.TextDim, "👾 " .. npc.Name, "Mob")
+                end
+            end
+        end
+    end
+
+    if CONFIG.ESPBoss then
+        for _, name in ipairs(CONFIG.BossList) do
+            local boss = getNPCByName(name)
+            if boss and boss:FindFirstChild("HumanoidRootPart") then
+                createESP(boss.HumanoidRootPart, COLORS.Secondary, "👑 " .. name, "Boss")
+            end
+        end
+    end
+
+    if CONFIG.ESPChest then
+        for _, obj in pairs(workspace:GetChildren()) do
+            if obj:IsA("Part") and string.find(obj.Name, "Chest") then
+                createESP(obj, COLORS.Accent, "📦 Chest", "Chest")
+            end
+        end
+    end
+
+    if CONFIG.ESPFruit then
+        for _, obj in pairs(workspace:GetChildren()) do
+            if obj:IsA("Tool") and string.find(obj.Name, "Fruit") and obj:FindFirstChild("Handle") then
+                local isLegendary = string.find(obj.Name, "Dragon") or string.find(obj.Name, "Leopard") or string.find(obj.Name, "Dough")
+                local color = isLegendary and COLORS.Secondary or COLORS.Success
+                createESP(obj.Handle, color, "🍎 " .. obj.Name, "Fruit")
+            end
+        end
+    end
+
+    if CONFIG.ESPItems then
+        for _, obj in pairs(workspace:GetChildren()) do
+            if obj:IsA("Tool") and not string.find(obj.Name, "Fruit") then
+                createESP(obj:FindFirstChild("Handle") or obj, COLORS.TextDim, "📦 " .. obj.Name, "Item")
+            end
+        end
+    end
+end
+
+local function farmLevel()
+    while CONFIG.FarmLevel and player.Data.Level < CONFIG.MaxLevel do
+        local target = getNearestNPC(CONFIG.NPCPriority)
+        if target then
+            comboAttack(target)
+        else
+            moveTo(Vector3.new(math.random(-50, 50), 10, math.random(-50, 50)))
+            wait(0.5)
+        end
+        wait(0.1)
+    end
+end
+
+local function farmAllBoss()
+    while CONFIG.FarmAllBoss do
+        local boss = getNearestBoss()
+        if boss then
+            comboAttack(boss)
+        else
+            wait(10)
+        end
+        wait(0.2)
+    end
+end
+
+local function farmElite()
+    while CONFIG.FarmElite do
+        local target = getNPCByName("Elite Pirate")
+        if not target then target = getNPCByName("Elite Marine") end
+        if target then
+            comboAttack(target)
+        else
+            wait(10)
+        end
+        wait(0.2)
+    end
+end
+
+local function farmSeaBeast()
+    while CONFIG.FarmSeaBeast do
+        local target = getNPCByName("SeaBeast")
+        if not target then target = getNPCByName("Sea Beast") end
+        if target then
+            comboAttack(target)
+        else
+            wait(10)
+        end
+        wait(0.2)
+    end
+end
+
+local function farmShip()
+    while CONFIG.FarmShip do
+        local target = getNPCByName("Ship")
+        if not target then target = getNPCByName("Boat") end
+        if target then
+            comboAttack(target)
+        else
+            wait(10)
+        end
+        wait(0.2)
+    end
+end
+
+local function farmChest()
+    while CONFIG.AutoFarmChest do
+        local chest = getNearestChest()
+        if chest then
+            moveTo(chest.Position)
+            wait(0.3)
+            useKey("E", 0.1)
+        else
+            wait(5)
+        end
+        wait(0.5)
+    end
+end
+
+local function farmFlower()
+    while CONFIG.AutoFarmFlower do
+        local flower = getNearestFlower()
+        if flower then
+            moveTo(flower.Position)
+            wait(0.3)
+            useKey("E", 0.1)
+        else
+            wait(5)
+        end
+        wait(0.5)
+    end
+end
+
+local function autoRaidFull()
+    while CONFIG.AutoRaidFull do
+        local raidNPC = getNPCByName("Raid")
+        if raidNPC then
+            comboAttack(raidNPC)
+        else
+            local startRaid = replicatedStorage:FindFirstChild("StartRaid")
+            if startRaid then
+                startRaid:FireServer("Normal", CONFIG.RaidFruit)
+                wait(5)
+            end
+        end
+        wait(0.5)
+    end
+end
+
+local function autoAwakenLoop()
+    while CONFIG.AutoAwaken do
+        local awakenSkill = replicatedStorage:FindFirstChild("AwakenSkill")
+        if awakenSkill then
+            for _, skill in ipairs({"Z", "X", "C", "V"}) do
+                awakenSkill:FireServer(CONFIG.AwakenFruit, skill)
+                wait(3)
+            end
+        end
+        wait(30)
+    end
+end
+
+local function autoSeaEvents()
+    while CONFIG.AutoSeaEvents do
+        local events = {"Volcano", "PirateRaid", "ShipRaid", "Terrorshark", "Leviathan"}
+        for _, event in ipairs(events) do
+            local target = getNPCByName(event)
+            if target then
+                comboAttack(target)
+            end
+        end
+        wait(5)
+    end
+end
+
+local function autoDoughKingLoop()
+    while CONFIG.AutoDoughKing do
+        local target = getNPCByName("Dough King")
+        if target then comboAttack(target) end
+        wait(20)
+    end
+end
+
+local function autoCakePrinceLoop()
+    while CONFIG.AutoCakePrince do
+        local target = getNPCByName("Cake Prince")
+        if target then comboAttack(target) end
+        wait(15)
+    end
+end
+
+local function autoMirageLoop()
+    while CONFIG.AutoMirage do
+        for _, obj in pairs(workspace:GetChildren()) do
+            if obj:IsA("Part") and string.find(obj.Name, "Mirage") then
+                moveTo(obj.Position)
+                wait(2)
+            end
+        end
+        wait(10)
+    end
+end
+
+local function autoTerrorsharkLoop()
+    while CONFIG.AutoTerrorshark do
+        local target = getNPCByName("Terrorshark")
+        if target then comboAttack(target) end
+        wait(10)
+    end
+end
+
+local function autoBoatLoop()
+    while CONFIG.AutoBoat do
+        for _, boat in pairs(workspace:GetChildren()) do
+            if boat:IsA("Vehicle") and string.find(boat.Name, CONFIG.BoatType) then
+                rootPart.CFrame = boat.CFrame
+                wait(0.3)
+                useKey("W", 5)
+                wait(5)
+                useKey("S", 1)
+            end
+        end
+        wait(5)
+    end
+end
+
+local function autoStatsLoop()
+    while CONFIG.AutoStats do
+        local stats = player.Data.Stats
+        if stats.Point > 0 then
+            for _, stat in ipairs(CONFIG.StatsPriority) do
+                if stats[stat] then
+                    stats:AddPoint(stat, stats.Point)
+                    break
+                end
+            end
+        end
+        wait(2)
+    end
+end
+
+local function autoHakiLoop()
+    while CONFIG.AutoHaki do
+        if CONFIG.HakiMode == "All" or CONFIG.HakiMode == "Observation" then
+            useKey("Q", 2)
+            wait(2)
+        end
+        if CONFIG.HakiMode == "All" or CONFIG.HakiMode == "Armament" then
+            useKey("E", 2)
+            wait(2)
+        end
+        if CONFIG.HakiMode == "All" or CONFIG.HakiMode == "Conqueror" then
+            useKey("R", 2)
+            wait(2)
+        end
+        wait(3)
+    end
+end
+
+local function autoBountyLoop()
+    while CONFIG.AutoBounty do
+        for _, plr in pairs(players:GetPlayers()) do
+            if plr ~= player and plr.Character and plr.Character:FindFirstChild("Humanoid") then
+                comboAttack(plr.Character)
+                break
+            end
+        end
+        wait(3)
+    end
+end
+
+local function autoRebirthLoop()
+    while CONFIG.AutoRebirth do
+        if player.Data.Level >= CONFIG.MaxLevel then
+            local rebirth = replicatedStorage:FindFirstChild("Rebirth")
+            if rebirth then
+                rebirth:FireServer()
+            end
+            wait(10)
+        end
+        wait(60)
+    end
+end
+
+local function autoRaceV4Loop()
+    while CONFIG.AutoRaceV4 do
+        local raceV4 = replicatedStorage:FindFirstChild("RaceV4")
+        if raceV4 then
+            raceV4:FireServer(CONFIG.RaceType)
+        end
+        wait(60)
+    end
+end
+
+local function autoHealLoop()
+    while CONFIG.AutoHeal do
+        local hp = (humanoid.Health / humanoid.MaxHealth) * 100
+        if hp <= CONFIG.HealThreshold then
+            useKey("F", 0.2)
+            wait(1)
+        end
+        wait(0.5)
+    end
+end
+
+local function autoSellLoop()
+    while CONFIG.AutoSell do
+        for _, item in pairs(player.Backpack:GetChildren()) do
+            if item:IsA("Tool") and item:FindFirstChild("Value") then
+                local sellItem = replicatedStorage:FindFirstChild("SellItem")
+                if sellItem then
+                    sellItem:FireServer(item)
+                end
+                wait(0.3)
+            end
+        end
+        wait(10)
+    end
+end
+
+local function autoSpinLoop()
+    while CONFIG.AutoSpin do
+        local spinFruit = replicatedStorage:FindFirstChild("SpinFruit")
+        if spinFruit then
+            spinFruit:FireServer("Random")
+        end
+        wait(60)
+    end
+end
+
+local function autoFarmBeliLoop()
+    while CONFIG.AutoFarmBeli do
+        local npc = getNearestNPC({"Bandit", "Pirate", "Marine"})
+        if npc then
+            comboAttack(npc)
+        else
+            wait(3)
+        end
+        wait(0.1)
+    end
+end
+
+local function autoFarmFragmentLoop()
+    while CONFIG.AutoFarmFragment do
+        local npc = getNearestNPC({"Boss", "Elite"})
+        if npc then
+            comboAttack(npc)
+        else
+            wait(5)
+        end
+        wait(0.2)
+    end
+end
+
+local function autoFarmMasteryLoop()
+    while CONFIG.AutoFarmMastery do
+        local npc = getNearestNPC({"Bandit", "Gorilla"})
+        if npc then
+            comboAttack(npc)
+        else
+            wait(3)
+        end
+        wait(0.1)
+    end
+end
+
+local function autoFarmBoneLoop()
+    while CONFIG.AutoFarmBone do
+        local npc = getNPCByName("Skeleton")
+        if not npc then npc = getNPCByName("Ghost") end
+        if npc then
+            comboAttack(npc)
+        else
+            wait(5)
+        end
+        wait(0.2)
+    end
+end
+
+local function autoFarmEvoLoop()
+    while CONFIG.AutoFarmEvo do
+        local npc = getNearestNPC({"Dragon", "Phoenix", "Leopard"})
+        if npc then
+            comboAttack(npc)
+        else
+            wait(10)
+        end
+        wait(0.2)
+    end
+end
+
+local function fruitSniperLoop()
+    while CONFIG.FruitSniper do
+        local fruit = getNearestFruit()
+        if fruit then
+            if CONFIG.FruitNotifier then
+                print("[FRUIT] " .. fruit.Name .. " xuat hien!")
+            end
+            if CONFIG.FruitESP then
+                createESP(fruit:FindFirstChild("Handle") or fruit, COLORS.Secondary, "🍎 " .. fruit.Name, "Fruit")
+            end
+            if CONFIG.FruitAutoCollect then
+                moveTo(fruit.Handle.Position)
+                wait(0.3)
+                useKey("E", 0.1)
+            end
+        end
+        wait(0.5)
+    end
+end
+
+local function antiAFKLoop()
+    while CONFIG.AntiAFK do
+        useKey("A", 0.05)
+        useKey("D", 0.05)
+        useKey("W", 0.05)
+        useKey("S", 0.05)
+        wait(CONFIG.AFKInterval)
+    end
+end
+
+local function autoChangeWeather()
+    while true do
+        local weather = lighting:FindFirstChild("Weather")
+        if weather then
+            weather.Value = "Sunny"
+        end
+        wait(60)
+    end
+end
+
+local function autoCollectBeli()
+    while true do
+        for _, obj in pairs(workspace:GetChildren()) do
+            if obj:IsA("Part") and string.find(obj.Name, "Beli") then
+                moveTo(obj.Position)
+                wait(0.1)
+            end
+        end
+        wait(5)
+    end
+end
+
+local function autoLevelCheck()
+    while true do
+        if player.Data.Level >= CONFIG.MaxLevel then
+            print("[LEVEL] Da dat max level: " .. CONFIG.MaxLevel)
+            wait(60)
+        end
+        wait(10)
+    end
+end
+
+local function autoServerHop()
+    while true do
+        if #players:GetPlayers() < 5 then
+            teleportService:Teleport(game.PlaceId)
+            wait(10)
+        end
+        wait(300)
+    end
+end
+
+spawn(farmLevel)
+spawn(farmAllBoss)
+spawn(farmElite)
+spawn(farmSeaBeast)
+spawn(farmShip)
+spawn(farmChest)
+spawn(farmFlower)
+spawn(autoRaidFull)
+spawn(autoAwakenLoop)
+spawn(autoSeaEvents)
+spawn(autoDoughKingLoop)
+spawn(autoCakePrinceLoop)
+spawn(autoMirageLoop)
+spawn(autoTerrorsharkLoop)
+spawn(autoBoatLoop)
+spawn(autoStatsLoop)
+spawn(autoHakiLoop)
+spawn(autoBountyLoop)
+spawn(autoRebirthLoop)
+spawn(autoRaceV4Loop)
+spawn(autoHealLoop)
+spawn(autoSellLoop)
+spawn(autoSpinLoop)
+spawn(autoFarmBeliLoop)
+spawn(autoFarmFragmentLoop)
+spawn(autoFarmMasteryLoop)
+spawn(autoFarmBoneLoop)
+spawn(autoFarmEvoLoop)
+spawn(fruitSniperLoop)
+spawn(antiAFKLoop)
+spawn(autoChangeWeather)
+spawn(autoCollectBeli)
+spawn(autoLevelCheck)
+spawn(autoServerHop)
+
+runService.Heartbeat:Connect(updateESP)
+
+wait(3)
+if CONFIG.Teleport then
+    teleportToLocation(CONFIG.TeleportLocation)
+end
+
+local screen = Instance.new("ScreenGui")
+screen.Parent = coreGui
+screen.Name = "LongRedzBanana"
+
+local mainFrame = Instance.new("Frame")
+mainFrame.Parent = screen
+mainFrame.Size = UDim2.new(0, 480, 0, 620)
+mainFrame.Position = UDim2.new(0.5, -240, 0.5, -310)
+mainFrame.BackgroundColor3 = COLORS.Background
+mainFrame.BackgroundTransparency = 0.05
+mainFrame.BorderSizePixel = 0
+mainFrame.ClipsDescendants = true
+
+local corner = Instance.new("UICorner")
+corner.Parent = mainFrame
+corner.CornerRadius = UDim.new(0, 12)
+
+local titleBar = Instance.new("Frame")
+titleBar.Parent = mainFrame
+titleBar.Size = UDim2.new(1, 0, 0, 50)
+titleBar.BackgroundColor3 = COLORS.BackgroundAlt
+titleBar.BackgroundTransparency = 0.2
+
+local title = Instance.new("TextLabel")
+title.Parent = titleBar
+title.Size = UDim2.new(1, -50, 1, 0)
+title.Position = UDim2.new(0, 15, 0, 0)
+title.BackgroundTransparency = 1
+title.Text = "🍌 LONG REDZ BANANA PHUC52Z"
+title.TextColor3 = COLORS.Primary
+title.TextSize = 16
+title.TextXAlignment = Enum.TextXAlignment.Left
+title.Font = Enum.Font.GothamBold
+
+local subTitle = Instance.new("TextLabel")
+subTitle.Parent = titleBar
+subTitle.Size = UDim2.new(1, -50, 1, 0)
+subTitle.Position = UDim2.new(0, 15, 0, 25)
+subTitle.BackgroundTransparency = 1
+subTitle.Text = "⚡ Full Auto | ESP | All Boss | Raid | Sea Events | 50+ Chuc nang"
+subTitle.TextColor3 = COLORS.TextDim
+subTitle.TextSize = 11
+subTitle.TextXAlignment = Enum.TextXAlignment.Left
+subTitle.Font = Enum.Font.Gotham
+
+local closeBtn = Instance.new("TextButton")
+closeBtn.Parent = titleBar
+closeBtn.Size = UDim2.new(0, 35, 0, 35)
+closeBtn.Position = UDim2.new(1, -45, 0, 7)
+closeBtn.BackgroundColor3 = COLORS.Danger
+closeBtn.BackgroundTransparency = 0.3
+closeBtn.Text = "✕"
+closeBtn.TextColor3 = Color3.new(1, 1, 1)
+closeBtn.TextSize = 18
+closeBtn.Font = Enum.Font.GothamBold
+local closeCorner = Instance.new("UICorner")
+closeCorner.Parent = closeBtn
+closeCorner.CornerRadius = UDim.new(1, 0)
+closeBtn.MouseButton1Click:Connect(function()
+    mainFrame.Visible = not mainFrame.Visible
+end)
+
+local tabContainer = Instance.new("Frame")
+tabContainer.Parent = mainFrame
+tabContainer.Size = UDim2.new(1, 0, 0, 40)
+tabContainer.Position = UDim2.new(0, 0, 0, 50)
+tabContainer.BackgroundTransparency = 1
+
+local tabs = {"FARM", "BOSS", "RAID", "FRUIT", "ESP", "MISC", "EVENTS"}
+local tabButtons = {}
+
+for i, name in ipairs(tabs) do
+    local btn = Instance.new("TextButton")
+    btn.Parent = tabContainer
+    btn.Size = UDim2.new(1 / #tabs, -2, 1, -4)
+    btn.Position = UDim2.new((i - 1) / #tabs + 0.005, 0, 0.05, 0)
+    btn.BackgroundColor3 = COLORS.BackgroundAlt
+    btn.BackgroundTransparency = 0.5
+    btn.Text = name
+    btn.TextColor3 = COLORS.TextDim
+    btn.TextSize = 10
+    btn.Font = Enum.Font.GothamSemibold
+    local c = Instance.new("UICorner")
+    c.Parent = btn
+    c.CornerRadius = UDim.new(0, 6)
+    if i == 1 then
+        btn.BackgroundTransparency = 0.2
+        btn.TextColor3 = COLORS.Text
+        btn.BackgroundColor3 = COLORS.Primary
+    end
+    tabButtons[i] = btn
+end
+
+local contentFrames = {}
+for i = 1, #tabs do
+    local frame = Instance.new("ScrollingFrame")
+    frame.Parent = mainFrame
+    frame.Size = UDim2.new(1, -20, 1, -110)
+    frame.Position = UDim2.new(0, 10, 0, 95)
+    frame.BackgroundTransparency = 1
+    frame.CanvasSize = UDim2.new(0, 0, 0, 0)
+    frame.ScrollBarThickness = 4
+    frame.ScrollBarImageColor3 = COLORS.Primary
+    frame.Visible = (i == 1)
+    contentFrames[i] = frame
+end
+
+local function createToggle(parent, label, default, callback, yPos)
+    local bg = Instance.new("Frame")
+    bg.Parent = parent
+    bg.Size = UDim2.new(1, -20, 0, 34)
+    bg.Position = UDim2.new(0, 0, 0, yPos)
+    bg.BackgroundColor3 = COLORS.BackgroundAlt
+    bg.BackgroundTransparency = 0.3
+    local c = Instance.new("UICorner")
+    c.Parent = bg
+    c.CornerRadius = UDim.new(0, 6)
+
+    local lbl = Instance.new("TextLabel")
+    lbl.Parent = bg
+    lbl.Size = UDim2.new(0.6, 0, 1, 0)
+    lbl.Position = UDim2.new(0, 10, 0, 0)
+    lbl.BackgroundTransparency = 1
+    lbl.Text = label
+    lbl.TextColor3 = COLORS.Text
+    lbl.TextSize = 12
+    lbl.TextXAlignment = Enum.TextXAlignment.Left
+    lbl.Font = Enum.Font.Gotham
+
+    local toggleBtn = Instance.new("TextButton")
+    toggleBtn.Parent = bg
+    toggleBtn.Size = UDim2.new(0, 50, 0, 24)
+    toggleBtn.Position = UDim2.new(1, -60, 0, 5)
+    toggleBtn.BackgroundColor3 = default and COLORS.Success or COLORS.Danger
+    toggleBtn.BackgroundTransparency = 0.2
+    toggleBtn.Text = default and "ON" or "OFF"
+    toggleBtn.TextColor3 = Color3.new(1, 1, 1)
+    toggleBtn.TextSize = 11
+    toggleBtn.Font = Enum.Font.GothamBold
+    local tc = Instance.new("UICorner")
+    tc.Parent = toggleBtn
+    tc.CornerRadius = UDim.new(1, 0)
+
+    local state = default
+    toggleBtn.MouseButton1Click:Connect(function()
+        state = not state
+        toggleBtn.BackgroundColor3 = state and COLORS.Success or COLORS.Danger
+        toggleBtn.Text = state and "ON" or "OFF"
+        if callback then callback(state) end
+    end)
+    return bg
+end
+
+local function createButton(parent, label, callback, yPos, color)
+    color = color or COLORS.Primary
+    local btn = Instance.new("TextButton")
+    btn.Parent = parent
+    btn.Size = UDim2.new(1, -20, 0, 38)
+    btn.Position = UDim2.new(0, 0, 0, yPos)
+    btn.BackgroundColor3 = color
+    btn.BackgroundTransparency = 0.15
+    btn.Text = label
+    btn.TextColor3 = Color3.new(1, 1, 1)
+    btn.TextSize = 14
+    btn.Font = Enum.Font.GothamSemibold
+    local c = Instance.new("UICorner")
+    c.Parent = btn
+    c.CornerRadius = UDim.new(0, 8)
+    btn.MouseButton1Click:Connect(callback)
+    return btn
+end
+
+local y = 0
+local f1 = contentFrames[1]
+createToggle(f1, "Auto Farm Level", true, function(v) CONFIG.FarmLevel = v end, y); y = y + 40
+createToggle(f1, "Auto Farm Elite", false, function(v) CONFIG.FarmElite = v end, y); y = y + 40
+createToggle(f1, "Auto Farm Sea Beast", false, function(v) CONFIG.FarmSeaBeast = v end, y); y = y + 40
+createToggle(f1, "Auto Farm Ship", false, function(v) CONFIG.FarmShip = v end, y); y = y + 40
+createToggle(f1, "Auto Farm Chest", false, function(v) CONFIG.AutoFarmChest = v end, y); y = y + 40
+createToggle(f1, "Auto Farm Flower", false, function(v) CONFIG.AutoFarmFlower = v end, y); y = y + 40
+createToggle(f1, "Auto Farm Beli", false, function(v) CONFIG.AutoFarmBeli = v end, y); y = y + 40
+createToggle(f1, "Auto Farm Fragment", false, function(v) CONFIG.AutoFarmFragment = v end, y); y = y + 40
+createToggle(f1, "Auto Farm Mastery", false, function(v) CONFIG.AutoFarmMastery = v end, y); y = y + 40
+createToggle(f1, "Auto Farm Bone", false, function(v) CONFIG.AutoFarmBone = v end, y); y = y + 40
+createToggle(f1, "Auto Farm Evo Mats", false, function(v) CONFIG.AutoFarmEvo = v end, y); y = y + 40
+createToggle(f1, "Auto Heal", true, function(v) CONFIG.AutoHeal = v end, y); y = y + 40
+createToggle(f1, "Anti AFK", true, function(v) CONFIG.AntiAFK = v end, y); y = y + 40
+createButton(f1, "▶ Teleport den dao", function()
+    CONFIG.Teleport = true
+    teleportToLocation(CONFIG.TeleportLocation)
+end, y, COLORS.Accent)
+y = y + 45
+f1.CanvasSize = UDim2.new(0, 0, 0, y + 20)
+
+y = 0
+local f2 = contentFrames[2]
+createToggle(f2, "Auto Farm All Boss", false, function(v) CONFIG.FarmAllBoss = v end, y); y = y + 40
+createToggle(f2, "Auto Dough King", false, function(v) CONFIG.AutoDoughKing = v end, y); y = y + 40
+createToggle(f2, "Auto Cake Prince", false, function(v) CONFIG.AutoCakePrince = v end, y); y = y + 40
+createToggle(f2, "Auto Terrorshark", false, function(v) CONFIG.AutoTerrorshark = v end, y); y = y + 40
+createButton(f2, "⚔ Tim Boss gan nhat", function()
+    local boss = getNearestBoss()
+    if boss then comboAttack(boss) end
+end, y, COLORS.Secondary)
+y = y + 45
+f2.CanvasSize = UDim2.new(0, 0, 0, y + 20)
+
+y = 0
+local f3 = contentFrames[3]
+createToggle(f3, "Auto Raid Full", false, function(v) CONFIG.AutoRaidFull = v end, y); y = y + 40
+createToggle(f3, "Auto Awaken", false, function(v) CONFIG.AutoAwaken = v end, y); y = y + 40
+createButton(f3, "🔥 Bat dau Raid", function()
+    local startRaid = replicatedStorage:FindFirstChild("StartRaid")
+    if startRaid then
+        startRaid:FireServer("Normal", CONFIG.RaidFruit)
+    end
+end, y, COLORS.Danger)
+y = y + 45
+f3.CanvasSize = UDim2.new(0, 0, 0, y + 20)
+
+y = 0
+local f4 = contentFrames[4]
+createToggle(f4, "Fruit Sniper", true, function(v) CONFIG.FruitSniper = v end, y); y = y + 40
+createToggle(f4, "Fruit ESP", true, function(v) CONFIG.FruitESP = v end, y); y = y + 40
+createToggle(f4, "Fruit Notifier", true, function(v) CONFIG.FruitNotifier = v end, y); y = y + 40
+createToggle(f4, "Auto Collect", true, function(v) CONFIG.FruitAutoCollect = v end, y); y = y + 40
+createToggle(f4, "Auto Spin", false, function(v) CONFIG.AutoSpin = v end, y); y = y + 40
+createButton(f4, "🍎 Tim trai gan nhat", function()
+    local fruit = getNearestFruit()
+    if fruit then moveTo(fruit.Handle.Position) end
+end, y, COLORS.Accent)
+y = y + 45
+f4.CanvasSize = UDim2.new(0, 0, 0, y + 20)
+
+y = 0
+local f5 = contentFrames[5]
+createToggle(f5, "ESP Players", false, function(v) CONFIG.ESPPlayers = v end, y); y = y + 40
+createToggle(f5, "ESP Mobs", false, function(v) CONFIG.ESPMobs = v end, y); y = y + 40
+createToggle(f5, "ESP Boss", false, function(v) CONFIG.ESPBoss = v end, y); y = y + 40
+createToggle(f5, "ESP Chest", false, function(v) CONFIG.ESPChest = v end, y); y = y + 40
+createToggle(f5, "ESP Fruit", true, function(v) CONFIG.ESPFruit = v end, y); y = y + 40
+createToggle(f5, "ESP Items", false, function(v) CONFIG.ESPItems = v end, y); y = y + 40
+createToggle(f5, "Show Health", true, function(v) CONFIG.ShowHealth = v end, y); y = y + 40
+createToggle(f5, "Show Distance", true, function(v) CONFIG.ShowDistance = v end, y); y = y + 40
+createButton(f5, "🔄 Refresh ESP", function()
+    updateESP()
+end, y, COLORS.Accent)
+y = y + 45
+f5.CanvasSize = UDim2.new(0, 0, 0, y + 20)
+
+y = 0
+local f6 = contentFrames[6]
+createToggle(f6, "Auto Stats", true, function(v) CONFIG.AutoStats = v end, y); y = y + 40
+createToggle(f6, "Auto Haki", true, function(v) CONFIG.AutoHaki = v end, y); y = y + 40
+createToggle(f6, "Auto Rebirth", false, function(v) CONFIG.AutoRebirth = v end, y); y = y + 40
+createToggle(f6, "Auto Race V4", false, function(v) CONFIG.AutoRaceV4 = v end, y); y = y + 40
+createToggle(f6, "Auto Boat", true, function(v) CONFIG.AutoBoat = v end, y); y = y + 40
+createToggle(f6, "Auto Sell", true, function(v) CONFIG.AutoSell = v end, y); y = y + 40
+createToggle(f6, "Auto Bounty", false, function(v) CONFIG.AutoBounty = v end, y); y = y + 40
+createButton(f6, "📊 Reset Stats", function()
+    player.Data.Stats:Reset()
+end, y, COLORS.Accent)
+createButton(f6, "🔄 Rejoin Server", function()
+    teleportService:Teleport(game.PlaceId)
+end, y + 45, COLORS.Secondary)
+y = y + 90
+f6.CanvasSize = UDim2.new(0, 0, 0, y + 20)
+
+y = 0
+local f7 = contentFrames[7]
+createToggle(f7, "Auto Sea Events", false, function(v) CONFIG.AutoSeaEvents = v end, y); y = y + 40
+createToggle(f7, "Auto Mirage", false, function(v) CONFIG.AutoMirage = v end, y); y = y + 40
+createToggle(f7, "Auto Change Weather", true, function(v) end, y); y = y + 40
+createToggle(f7, "Auto Collect Beli", true, function(v) end, y); y = y + 40
+createToggle(f7, "Auto Server Hop", false, function(v) end, y); y = y + 40
+createButton(f7, "🌋 Kich hoat Volcano Event", function()
+    local volcano = getNPCByName("Volcano")
+    if volcano then comboAttack(volcano) end
+end, y, COLORS.Danger)
+y = y + 45
+createButton(f7, "📋 Danh sach teleport", function()
+    local locs = {}
+    for _, obj in pairs(workspace:GetChildren()) do
+        if obj:IsA("Part") and obj.Size.Magnitude > 10 then
+            table.insert(locs, obj.Name)
+        end
+    end
+    print("[LOCATIONS] " .. table.concat(locs, ", "))
+end, y, COLORS.Accent)
+y = y + 45
+f7.CanvasSize = UDim2.new(0, 0, 0, y + 20)
+
+for i, btn in ipairs(tabButtons) do
+    btn.MouseButton1Click:Connect(function()
+        for j, b in ipairs(tabButtons) do
+            b.BackgroundTransparency = 0.5
+            b.TextColor3 = COLORS.TextDim
+            b.BackgroundColor3 = COLORS.BackgroundAlt
+        end
+        btn.BackgroundTransparency = 0.2
+        btn.TextColor3 = COLORS.Text
+        btn.BackgroundColor3 = COLORS.Primary
+        for j, f in ipairs(contentFrames) do
+            f.Visible = (j == i)
+        end
+    end)
+end
+
+local dragging, dragStart, startPos
+titleBar.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        dragStart = input.Position
+        startPos = mainFrame.Position
+    end
+end)
+userInput.InputChanged:Connect(function(input)
+    if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+        local delta = input.Position - dragStart
+        mainFrame.Position = UDim2.new(
+            startPos.X.Scale,
+            startPos.X.Offset + delta.X,
+            startPos.Y.Scale,
+            startPos.Y.Offset + delta.Y
+        )
+    end
+end)
+userInput.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = false
+    end
+end)
+
+userInput.InputBegan:Connect(function(input, processed)
+    if processed then return end
+    if input.KeyCode == Enum.KeyCode.RightShift then
+        mainFrame.Visible = not mainFrame.Visible
+    end
+end)
+
+print("[LONG REDZ BANANA PHUC52Z] Da tai thanh cong! Nhan RightShift de an/hien menu")
+print("[LONG REDZ BANANA PHUC52Z] 50+ chuc nang dang hoat dong")
+print("[LONG REDZ BANANA PHUC52Z] ESP | All Boss | Raid | Sea Events | Fruit Sniper")
